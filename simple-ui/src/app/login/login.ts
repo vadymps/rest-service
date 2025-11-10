@@ -26,8 +26,8 @@ import { AuthService } from '../auth';
   styleUrls: ['./login.css'],
 })
 export class Login {
-  readonly login = new FormControl('', [Validators.required]);
-  readonly password = new FormControl('', [Validators.required]);
+  readonly login = new FormControl('', Validators.required);
+  readonly password = new FormControl('', Validators.required);
   
   loading = signal(false);
   error = signal('');
@@ -44,17 +44,12 @@ export class Login {
     this.loading.set(true);
     this.error.set('');
 
-    const loginValue = this.login.value || '';
-    const passwordValue = this.password.value || '';
-
-    this.authService.login(loginValue, passwordValue).subscribe({
-      next: (response) => {
-        console.log('Login successful:', response);
+    this.authService.login(this.login.value!, this.password.value!).subscribe({
+      next: () => {
         this.loading.set(false);
-        // Handle successful login (e.g., redirect to dashboard)
+        // Handle successful login
       },
-      error: (error) => {
-        console.error('Login failed:', error);
+      error: () => {
         this.error.set('Login failed. Please check your credentials.');
         this.loading.set(false);
       }

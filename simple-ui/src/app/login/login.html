@@ -3,64 +3,41 @@
     <mat-card-header>
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
-    
+
     <mat-card-content>
       <form (ngSubmit)="onSubmit()" class="login-form">
-        <!-- Login Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Login</mat-label>
-          <input 
-            matInput 
-            [formControl]="login"
-            placeholder="Enter your login"
-            required
-          />
+          <input matInput [formControl]="login" placeholder="Enter your login" required />
           <mat-icon matSuffix>person</mat-icon>
-          @if (login.invalid) {
-            <mat-error>Login is required</mat-error>
+          @if (login.invalid && login.touched) {
+          <mat-error>Login is required</mat-error>
           }
         </mat-form-field>
 
-        <!-- Password Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
-          <input 
-            matInput 
-            type="password" 
-            [formControl]="password"
-            placeholder="Enter your password"
-            required
-          />
+          <input matInput type="password" [formControl]="password" placeholder="Enter your password" required />
           <mat-icon matSuffix>lock</mat-icon>
-          @if (password.invalid) {
-            <mat-error>Password is required</mat-error>
+          @if (password.invalid && password.touched) {
+          <mat-error>Password is required</mat-error>
           }
         </mat-form-field>
 
-        <!-- Error Message -->
         @if (error()) {
-          <div class="error-message">
-            <mat-icon color="warn">error</mat-icon>
-            <span>{{ error() }}</span>
-          </div>
+        <div class="error-message">
+          <mat-icon color="warn">error</mat-icon>
+          <span>{{ error() }}</span>
+        </div>
         }
+
+        <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="loading()">
+          @if (loading()) {
+          <mat-spinner diameter="20"></mat-spinner>
+          }
+          {{ loading() ? 'Logging in...' : 'Login' }}
+        </button>
       </form>
     </mat-card-content>
-
-    <mat-card-actions>
-      <!-- Submit Button -->
-      <button 
-        mat-raised-button 
-        color="primary"
-        type="submit" 
-        class="full-width login-button"
-        [disabled]="loading()"
-      >
-        @if (loading()) {
-          <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
-        }
-        {{ loading() ? 'Logging in...' : 'Login' }}
-      </button>
-    </mat-card-actions>
   </mat-card>
 </div>
